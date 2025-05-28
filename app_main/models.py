@@ -98,6 +98,7 @@ class HotelReservation(models.Model):
     def __str__(self):
         return f"Reservation - {self.user} for {HotelRoom.room_type} on {self.check_in_date}"
     
+# Required by Folium // storing long - lat data for marker on the map
 class HotelLocations(models.Model):
     hotel = models.OneToOneField(Hotel, on_delete=models.CASCADE, related_name="location_details")
     latitude = models.FloatField()

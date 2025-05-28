@@ -26,57 +26,76 @@ def homepage(request):
     return render(request, 'homepage/home.html')
 
 def register(request):
+    # Handle form submission if the request method is POST
     if request.method == 'POST':
         form = UserRegistrationFrom(request.POST)
+
         if form.is_valid():
+            # Create user object without saving to DB yet
             user = form.save(commit=False)
+
+            # Hash the password before saving
             user.password = make_password(user.password)
+
+            # Save the user to the database
             form.save()
+
+            # Redirect to login page after successful registration
             return redirect('login')
         else:
+            # Extract specific error for the email field, if any
             email_error = None
             if form.errors.get('email'):
                 email_error = form.errors.get('email')[0]
+
+            # Re-render the form with validation errors
             return render(request, 'register/register.html', {
                 'form': form,
                 'email_error': email_error
             })
-    else:
-        form = UserRegistrationFrom()
 
+    else:
+        # If not a POST request, just show the empty registration form
+        form = UserRegistrationFrom()
     return render(request, 'register/register.html', {'form': form})
 
 def register_success(request):
     return render(request, 'register_success/register-success.html')
 
 def login_view(request):
+    # Handle login form submission
     if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
-        
-        user = authenticate(request, email=email, password=password) 
+
+        # Authenticate user with provided credentials
+        user = authenticate(request, email=email, password=password)
 
         if user is not None:
+            # Log the user in and redirect to home page
             auth_login(request, user)
-            return redirect('http://127.0.0.1:8000/')  
+            return redirect('http://127.0.0.1:8000/')
         else:
+            # Invalid credentials; re-render login with error message
             return render(request, 'login/login.html', {'error': 'Invalid email or password'})
-    
     return render(request, 'login/login.html')
 
 @login_required
 def account_view(request):
-    user = request.user
+    user = request.user  # Get the currently logged-in user
 
     if request.method == 'POST':
+        # Handle profile info update form
         form_info = UserUpdateProfileInfo(request.POST, instance=user)
         if form_info.is_valid():
             form_info.save()
 
+        # Handle profile image update form
         form_image = UserChangeProfileImage(request.POST, request.FILES, instance=user)
         if form_image.is_valid():
             form_image.save()
 
+        # Handle password change
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
 
@@ -85,27 +104,30 @@ def account_view(request):
                 user.password = make_password(password)
                 user.save()
             else:
-                pass  
+                pass  # Passwords do not match; optionally handle this with an error message
 
+        # Re-render page with updated data and user reservations
         return render(request, 'my_account/my_account.html', {
             'form_info': form_info,
             'form_image': form_image,
             'user': user,
-            'reservations': HotelReservation.objects.filter(user=user)  
+            'reservations': HotelReservation.objects.filter(user=user)
         })
 
     else:
+        # For GET requests, load forms with current user data
         form_info = UserUpdateProfileInfo(instance=user)
         form_image = UserChangeProfileImage(instance=user)
 
+    # Get user's reservations
     reservations = HotelReservation.objects.filter(user=user)
-    
     return render(request, 'my_account/my_account.html', {
         'form_info': form_info,
         'form_image': form_image,
         'user': user,
-        'reservations': reservations  
+        'reservations': reservations
     })
+
 
 def user_logout(request):
     logout(request)
