@@ -82,10 +82,11 @@ def login_view(request):
 
 @login_required
 def account_view(request):
-    user = request.user  # Get the currently logged-in user
+    user = request.user # Get the currently logged-in user
+    password_error = None  # Track password mismatch error
 
     if request.method == 'POST':
-        # Handle profile info update form
+         # Handle profile info update form
         form_info = UserUpdateProfileInfo(request.POST, instance=user)
         if form_info.is_valid():
             form_info.save()
@@ -95,23 +96,24 @@ def account_view(request):
         if form_image.is_valid():
             form_image.save()
 
-        # Handle password change
+         # Handle password change
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
+        password_error = None
 
         if password and confirm_password:
             if password == confirm_password:
                 user.password = make_password(password)
                 user.save()
             else:
-                pass  # Passwords do not match; optionally handle this with an error message
+                password_error = "Passwords do not match." # Display error on missmatch
 
-        # Re-render page with updated data and user reservations
         return render(request, 'my_account/my_account.html', {
             'form_info': form_info,
             'form_image': form_image,
             'user': user,
-            'reservations': HotelReservation.objects.filter(user=user)
+            'reservations': HotelReservation.objects.filter(user=user),
+            'password_error': password_error
         })
 
     else:
@@ -119,13 +121,14 @@ def account_view(request):
         form_info = UserUpdateProfileInfo(instance=user)
         form_image = UserChangeProfileImage(instance=user)
 
-    # Get user's reservations
     reservations = HotelReservation.objects.filter(user=user)
+
     return render(request, 'my_account/my_account.html', {
         'form_info': form_info,
         'form_image': form_image,
         'user': user,
-        'reservations': reservations
+        'reservations': reservations,
+        'password_error': None
     })
 
 

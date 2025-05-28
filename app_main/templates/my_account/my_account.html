@@ -64,6 +64,7 @@
                 
                 <h2>Change Password </h2>
                 <form method="POST" class="change-password-form">
+                    
                     {% csrf_token %}
                     <label for="password">Password</label>
                     <input type="password" name="password" required>
@@ -73,6 +74,9 @@
 
                     <button type="submit">Change Password</button>
                 </form>
+                {% if password_error %}
+                    <p style="color:red;">{{ password_error }}</p>
+                    {% endif %}
             </div>
 
             <div id="tab2" class="tab-pane">
