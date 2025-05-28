@@ -1,0 +1,58 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'login/CSS/login.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="login-content">
+            <img src="/static/register/images/Logo_dark_green.svg">
+            <h1>Login</h1>
+            <p>Login to access your Golobe account</p>
+
+            <form class="login" method="POST">
+                {% csrf_token %}
+                <div class="form-set">
+                    <label for="email">Email</label>
+                    <input name="email" type="email" required>
+                    {% if error%}
+                    <div class="error"></div>
+                    {% endif %}
+                </div>
+
+                <div class="form-set">
+                    <label for="password">Password</label>
+                    <input name="password" type="password" required>
+                    {% if error%}
+                    <div class="error">{{ error }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="checkbox-holder">
+                    <div class="form-set-chekcbox">
+                        <input id="consent" type="checkbox" name="consent">
+                        <label class="consent" for="consent">Remember me</label>   
+                    </div>
+                        <a href="http://127.0.0.1:8000/reset_password">Forgot password?</a>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+            <p style="color:black; text-align: center; margin-top: 24px;"> Don't have an account? <a href="http://127.0.0.1:8000/register/">Sign Up</a></p>
+        </div>
+
+            <div class="image-conatiner">
+            </div>
+        </div>
+    
+</body>
+
+</html>

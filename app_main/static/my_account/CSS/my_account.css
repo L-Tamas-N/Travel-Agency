@@ -1,0 +1,266 @@
+body{
+    margin:0 auto;
+    padding: 20px 75px;
+    font-family: 'Montserrat', sans-serif;
+    height: 100%;
+}
+
+body a{
+    text-decoration: none;
+    color: #FF8682;
+    font-weight: 600;
+}
+
+input:focus{
+    outline: none;
+}
+
+
+/* #region: Hero */
+
+.hero-section{
+    background: url("/static/my_account/images/My_account_hero.jpg");
+    width: 100%;
+    height: 400px;
+    max-width: 1920;
+    border-radius: 12px;
+}
+/* #endregion */
+
+/* #region: User-basic-info */
+
+.user-basic-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: -90px;
+}
+
+.user-image{
+    width: 150px;
+    height: 150px;
+    border: 4px solid #FF8682;
+    border-radius: 100px;
+}
+
+.user-full-name{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    color: #112211;
+    margin: 0px;
+    margin-bottom: 8px !important;
+}
+
+.user-email{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    color: #11221170;
+    margin: 0px;
+    margin-bottom: 8px !important;
+}
+
+.file-input {
+    display: none;
+}
+
+.file-input-label {
+    font-size: 30px;
+    cursor: pointer;
+    background-color: #f1f1f1;
+    padding: 20px;
+    border-radius: 50%;
+    background-color: #FF8682;
+    position: relative;
+    left: 50px;
+    top: -30px;
+}
+
+.file-input-label:hover {
+    background-color: #e0e0e0;
+}
+
+.file-input-label i {
+    color: #333;
+}
+
+.btn-logout{
+    display: block;
+    background-color: #8dd3ba; 
+    border: none;
+    padding: 20px 10px;
+    border-radius: 5px;
+    font-size: 32px;
+    cursor: pointer;
+    color:#112211;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    width: 834px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+/* #endregion */
+
+/* #region: Tabs */
+
+.tabs {
+    margin: 0 auto;
+    padding: 32px;
+    box-shadow: 0px 4px 16px 0px rgba(141, 211, 187, 0.15);
+    border-radius: 16px;
+    margin-bottom: 80px !important;
+
+}
+
+.tab-titles {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    background-color: white;
+    font-size: 24px;
+}
+
+.tab-titles li {
+    margin-right: 60px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 4px solid transparent;
+}
+
+.tab-titles li.active {
+    border-bottom: 4px solid #8DD3BB;
+}
+
+.tab-content {
+    margin-top: 20px;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+.tab-content{
+    padding: 20px;
+}
+
+.tab-content h2{
+    font-size: 60px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    font-family: 'Poppins', sans-serif;
+    color:#112211;
+    margin: 0px;
+    margin-bottom: 32px !important;
+}
+
+/* #endregion */
+
+/* #region: Tab1 account */
+
+.update-account-info-container{
+    display:flex;
+    justify-content: space-between;
+    gap: 24px;
+
+}
+
+.update-account-info{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 800px;
+    margin-right: 25px;
+}
+
+.update-account-info label{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    color: #11221170;
+    margin-bottom: 5px;
+}
+
+.update-account-info input{
+    appearance: none;
+    padding: 10px 16px;
+    height: 25px;
+    border-radius: 4px 4px 4px 4px;
+    border: 1px solid #000;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #1C1B1F;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.img-container{
+    background: url("/static/my_account/images/My_account_side_img.jpg") center center;
+    background-size: cover;
+    width: 1000px;
+    height: auto;   
+    border-radius: 20px; 
+}
+
+button[type="submit"]{
+    display: block;
+    background-color: #8dd3ba; 
+    border: none;
+    padding: 20px 10px;
+    border-radius: 5px;
+    font-size: 32px;
+    cursor: pointer;
+    color:#112211;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    width: 834px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.change-password-form{
+    display: flex;
+    flex-direction: column;
+    width: 800px;
+}
+
+.change-password-form label{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    color: #11221170;
+    margin-bottom: 5px;
+}
+
+.change-password-form input{
+    appearance: none;
+    padding: 10px 16px;
+    height: 25px;
+    border-radius: 4px 4px 4px 4px;
+    border: 1px solid #000;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #1C1B1F;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+/* #endregion */
+
+

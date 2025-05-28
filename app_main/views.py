@@ -1,0 +1,439 @@
+from django.shortcuts import render, redirect, get_object_or_404
+from django.conf import settings
+from .forms import UserRegistrationFrom, UserChangeProfileImage, UserUpdateProfileInfo, PasswordResetForm
+from django.http import JsonResponse
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login as auth_login, get_user_model, update_session_auth_hash
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import logout
+from .models import Hotel, HotelReservation, HotelLocations, HotelRoom, Flight
+from .scripts import extract_city_from_list
+from datetime import datetime, date
+from django.utils.http import urlsafe_base64_decode
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib import messages
+import folium, random, string
+from django.core.mail import send_mail
+from django.utils import timezone
+import json, requests, stripe
+
+
+# Create your views here.
+def homepage(request):
+    return render(request, 'homepage/home.html')
+
+def register(request):
+    if request.method == 'POST':
+        form = UserRegistrationFrom(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.password = make_password(user.password)
+            form.save()
+            return redirect('login')
+        else:
+            email_error = None
+            if form.errors.get('email'):
+                email_error = form.errors.get('email')[0]
+            return render(request, 'register/register.html', {
+                'form': form,
+                'email_error': email_error
+            })
+    else:
+        form = UserRegistrationFrom()
+
+    return render(request, 'register/register.html', {'form': form})
+
+def register_success(request):
+    return render(request, 'register_success/register-success.html')
+
+def login_view(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+        
+        user = authenticate(request, email=email, password=password) 
+
+        if user is not None:
+            auth_login(request, user)
+            return redirect('http://127.0.0.1:8000/')  
+        else:
+            return render(request, 'login/login.html', {'error': 'Invalid email or password'})
+    
+    return render(request, 'login/login.html')
+
+@login_required
+def account_view(request):
+    user = request.user
+
+    if request.method == 'POST':
+        form_info = UserUpdateProfileInfo(request.POST, instance=user)
+        if form_info.is_valid():
+            form_info.save()
+
+        form_image = UserChangeProfileImage(request.POST, request.FILES, instance=user)
+        if form_image.is_valid():
+            form_image.save()
+
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if password and confirm_password:
+            if password == confirm_password:
+                user.password = make_password(password)
+                user.save()
+            else:
+                pass  
+
+        return render(request, 'my_account/my_account.html', {
+            'form_info': form_info,
+            'form_image': form_image,
+            'user': user,
+            'reservations': HotelReservation.objects.filter(user=user)  
+        })
+
+    else:
+        form_info = UserUpdateProfileInfo(instance=user)
+        form_image = UserChangeProfileImage(instance=user)
+
+    reservations = HotelReservation.objects.filter(user=user)
+    
+    return render(request, 'my_account/my_account.html', {
+        'form_info': form_info,
+        'form_image': form_image,
+        'user': user,
+        'reservations': reservations  
+    })
+
+def user_logout(request):
+    logout(request)
+    return redirect('http://127.0.0.1:8000/')
+
+def terms_of_service(request):
+    return render(request , 'TOS/tos.html')
+
+def privacy_policy(request):
+    return render(request, 'TOS/privacy.html')
+
+def hotel_search(request):
+    hotels = Hotel.objects.none() 
+    if request.GET:
+        hotels = Hotel.objects.all()
+
+        location = request.GET.get('location')
+        check_in = request.GET.get('check-in')
+        check_out = request.GET.get('check-out')
+        room_type = request.GET.get('rooms')
+
+        if location:
+            hotels = hotels.filter(location__icontains=location)
+
+        try:
+            check_in_date = datetime.strptime(check_in, '%Y-%m-%d').date() if check_in else None
+            check_out_date = datetime.strptime(check_out, '%Y-%m-%d').date() if check_out else None
+        except ValueError:
+            check_in_date, check_out_date = None, None
+
+        available_rooms = HotelRoom.objects.all()  
+
+        if room_type:
+            available_rooms = available_rooms.filter(room_type__iexact=room_type)
+
+        if check_in_date and check_out_date:
+            unavailable_rooms = HotelReservation.objects.filter(
+                check_in_date__lt=check_out_date,
+                check_out_date__gt=check_in_date
+            ).values_list("room", flat=True)
+
+            available_rooms = available_rooms.exclude(id__in=unavailable_rooms)
+
+        hotel_ids = available_rooms.values_list('hotel_id', flat=True)
+        hotels = hotels.filter(id__in=hotel_ids).distinct()  
+
+    return render(request, 'hotels/hotel_list.html', {'hotels': hotels})
+
+User = get_user_model()
+
+def custom_password_reset_confirm(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = User.objects.get(pk=uid)
+    except (User.DoesNotExist, ValueError, TypeError):
+        user = None
+
+    if user and default_token_generator.check_token(user, token):  
+        if request.method == "POST":
+            password = request.POST.get("password")  
+            confirm_password = request.POST.get("confirm_password")  
+
+            if password and confirm_password:
+                if password == confirm_password:
+                    user.password = make_password(password)  
+                    user.save()
+                    messages.success(request, "Your password has been successfully reset.")
+                    return redirect("password_reset_complete")  
+                else:
+                    messages.error(request, "Passwords do not match.")
+
+        return render(request, "password_reset/password_reset_confirm.html")
+
+    return render(request, "password_reset/password_reset_invalid.html")
+    
+def hotel_detail(request, hotel_id):
+    
+    hotel = get_object_or_404(Hotel, id=hotel_id)
+    
+    amenities_list = hotel.amenities.split(",") if hotel.amenities else []
+    
+    hotel_location = HotelLocations.objects.filter(hotel=hotel).first()
+    
+    if hotel_location:
+        m = folium.Map(location=[hotel_location.latitude, hotel_location.longitude], zoom_start=15)
+        folium.Marker([hotel_location.latitude, hotel_location.longitude], popup=hotel.name).add_to(m)
+    else:
+        m = folium.Map(location=[0, 0], zoom_start=9)
+
+    map_html = m._repr_html_()
+
+    flights = Flight.objects.filter(destination_city__icontains=hotel.location)
+
+    return render(request, 'hotel_detail/hotel_detail.html', {
+        'hotel': hotel,
+        'amenities_list': amenities_list,
+        'map_html': map_html,
+        'flights': flights
+    })
+    
+def generate_random_password(length=10):
+    chars = string.ascii_letters + string.digits + "!@#$%^&*()"
+    return "".join(random.choice(chars) for _ in range(length))
+
+def book_now(request, hotel_id, room_id):
+    hotel = get_object_or_404(Hotel, id=hotel_id)
+
+    if request.method == "GET":
+        check_in_date = request.GET.get("check_in_date")
+        check_out_date = request.GET.get("check_out_date")
+        rooms = []
+
+        if check_in_date and check_out_date:
+            check_in_date_obj = datetime.strptime(check_in_date, "%Y-%m-%d").date()
+            check_out_date_obj = datetime.strptime(check_out_date, "%Y-%m-%d").date()
+
+            if check_in_date_obj < date.today():
+                return render(request, "booking/booking.html", {
+                    "hotel": hotel,
+                    "error_message": "Check-in date cannot be in the past.",
+                    "check_in_date": check_in_date,
+                    "check_out_date": check_out_date
+                })
+
+            if check_out_date_obj <= check_in_date_obj:
+                return render(request, "booking/booking.html", {
+                    "hotel": hotel,
+                    "error_message": "Check-out date must be after check-in date.",
+                    "check_in_date": check_in_date,
+                    "check_out_date": check_out_date
+                })
+
+            all_rooms = HotelRoom.objects.filter(hotel=hotel)
+
+            for room in all_rooms:
+                overlapping_reservations = HotelReservation.objects.filter(
+                    room=room,
+                    check_in_date__lt=check_out_date_obj,
+                    check_out_date__gt=check_in_date_obj
+                )
+                if not overlapping_reservations.exists():
+                    rooms.append(room)
+
+        return render(request, "booking/booking.html", {
+            "hotel": hotel,
+            "rooms": rooms,
+            "check_in_date": check_in_date,
+            "check_out_date": check_out_date
+        })
+
+    elif request.method == "POST":
+        check_in_date = request.POST.get("check_in_date")
+        check_out_date = request.POST.get("check_out_date")
+        selected_room_id = request.POST.get("room_id")
+        selected_room = get_object_or_404(HotelRoom, id=selected_room_id, hotel=hotel)
+
+        check_in_date_obj = datetime.strptime(check_in_date, "%Y-%m-%d").date()
+        check_out_date_obj = datetime.strptime(check_out_date, "%Y-%m-%d").date()
+
+        if check_in_date_obj < date.today():
+            return render(request, "booking/booking.html", {
+                "hotel": hotel,
+                "error_message": "Check-in date cannot be in the past.",
+                "check_in_date": check_in_date,
+                "check_out_date": check_out_date
+            })
+
+        if check_out_date_obj <= check_in_date_obj:
+            return render(request, "booking/booking.html", {
+                "hotel": hotel,
+                "error_message": "Check-out date must be after check-in date.",
+                "check_in_date": check_in_date,
+                "check_out_date": check_out_date
+            })
+
+        conflict = HotelReservation.objects.filter(
+            room=selected_room,
+            check_in_date__lt=check_out_date_obj,
+            check_out_date__gt=check_in_date_obj
+        ).exists()
+
+        if conflict:
+            return render(request, "booking/booking.html", {
+                "hotel": hotel,
+                "error_message": "This room is no longer available for the selected dates.",
+                "check_in_date": check_in_date,
+                "check_out_date": check_out_date
+            })
+
+        num_nights = (check_out_date_obj - check_in_date_obj).days
+        total_price = selected_room.price_per_night * num_nights
+
+        if not request.user.is_authenticated:
+            email = request.POST.get("email")
+            if email:
+                password = generate_random_password()
+                user, created = User.objects.get_or_create(email=email, defaults={
+                    "first_name": "",
+                    "last_name": "",
+                    "phone": "",
+                    "birth_date": None,
+                })
+                if created:
+                    user.set_password(password)
+                    user.save()
+                    send_mail(
+                        "Your New Account",
+                        f"Your account has been created.\n\nEmail: {user.email}\nPassword: {password}",
+                        "admin@example.com",
+                        [user.email],
+                        fail_silently=False,
+                    )
+                auth_login(request, user)
+        else:
+            user = request.user
+
+        reservation = HotelReservation.objects.create(
+            hotel=hotel,
+            room=selected_room,
+            user=user,
+            check_in_date=check_in_date_obj,
+            check_out_date=check_out_date_obj,
+            status="Booked",
+            total_price=total_price 
+        )
+
+        return redirect("booking_success", reservation_id=reservation.id)
+
+def booking_success(request, reservation_id):
+    reservation = get_object_or_404(HotelReservation, id=reservation_id)
+    
+    return render(request, 'booking/booking_success.html', {
+        'reservation': reservation,
+        'payment_status': 'You can choose to pay online or pay at checkout.'
+    })
+
+stripe.api_key = "sk_test_51RBBMWI0QjogqOe0yEaYCG71omBp5t4ARQYGeQyUBXpgVkI3hIlzt2FSLn69mkevGYQhpwSw0lQDlWequWIzS1aP00AnK7WOcJ"
+
+def process_payment(request, reservation_id):
+    if not request.user.is_authenticated:
+        return JsonResponse({"error": "User not authenticated"}, status=400)
+
+    try:
+        reservation = HotelReservation.objects.filter(user=request.user, status="Booked", id=reservation_id).last()
+
+        if not reservation:
+            return JsonResponse({"error": "No active reservation found."}, status=404)
+
+        if reservation.was_paid:
+            return JsonResponse({"error": "This reservation has already been paid."}, status=400)
+
+        room_price = int(reservation.total_price * 100)  
+
+        # Create Stripe checkout session
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'usd',
+                    'product_data': {
+                        'name': f"Reservation for {reservation.hotel.name} - {reservation.room.room_type}",
+                    },
+                    'unit_amount': room_price,  
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url=request.build_absolute_uri(f'/payment_success/?reservation_id={reservation.id}'),
+            cancel_url=request.build_absolute_uri('/payment/cancel/'),
+        )
+
+        return redirect(checkout_session.url)
+
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+    
+def payment_success(request):
+    reservation_id = request.GET.get('reservation_id')
+
+    if reservation_id:
+        reservation = get_object_or_404(HotelReservation, id=reservation_id)
+        reservation.was_paid = True  
+        reservation.save() 
+
+    return render(request, 'payment/success.html', {
+        'reservation': reservation,
+        'payment_status': 'Payment was successful.'
+    })
+
+MAILCHIMP_API_KEY = "7842cd301e59382d523a944a033f5c2b-us1"
+MAILCHIMP_SERVER_PREFIX = "us1"
+MAILCHIMP_LIST_ID = "3c0eff4008"
+
+def subscribe_newsletter(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        
+        if email:
+            try:
+                response = requests.post(
+                    f'https://{MAILCHIMP_SERVER_PREFIX}.api.mailchimp.com/3.0/lists/{MAILCHIMP_LIST_ID}/members/',
+                    auth=('apikey', MAILCHIMP_API_KEY),
+                    json={
+                        "email_address": email,
+                        "status": "subscribed"
+                    }
+                )
+
+                print("Mailchimp Response Status Code:", response.status_code)
+                print("Mailchimp Response Content:", response.json())
+
+                if response.status_code == 200:
+                    return JsonResponse({"success": "Successfully subscribed!"})
+                else:
+                    return JsonResponse({"error": f"Failed to subscribe. Mailchimp Error: {response.json()}"})
+            except requests.exceptions.RequestException as e:
+                return JsonResponse({"error": f"Request failed: {str(e)}"})
+        else:
+            return JsonResponse({"error": "Please provide a valid email address."})
+
+    return JsonResponse({"error": "Invalid request method."}, status=405)
+
+def flight_list(request):
+    flights = Flight.objects.all()
+    return render(request, 'flight/flight.html', {'flights': flights})
+
+
+
+            
+
+

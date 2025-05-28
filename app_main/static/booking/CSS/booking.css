@@ -1,0 +1,241 @@
+@font-face {
+    font-family: 'Trade Gothic LT Extended';
+    src: url('homepage/fonts/Trade_Gothic_LT_Extended.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+html{
+    height: 100%;
+}
+
+body{
+    margin:0 auto;
+    padding: 20px 20px;
+    font-family: 'Montserrat', sans-serif;
+    background-color: rgba(211, 211, 211, 0.329);
+    height: 100%;
+}
+
+input:focus {
+    outline: none;
+  }
+
+  h1{
+    color: #000;
+    font-family: 'Poppins';
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin: 0px;
+    margin-bottom: 16px;
+}
+
+/* #region: Header */
+header{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding:0px 40px;
+    margin: 0px auto !important;
+    position: relative;
+    top:45px;
+    background: transparent;
+}
+
+.header-content{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+nav{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 33%;
+}
+
+
+
+nav ul{
+    display: flex;
+    flex-direction: row;
+    color: white;
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+nav svg{
+    margin-right: 4px;
+}
+
+nav a{
+    position: relative;
+    top: -5px;
+    margin-right: 32px;
+    font-size: 25px;
+}
+
+nav .logo{
+    width: 33%;
+}
+
+.nav-button-container{
+    width: 33%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+}
+
+.button-white{
+    max-width: 170px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    background-color: #ffffff;
+    color: #112211;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #8DD3BB;
+    padding: 10px 10px;
+}
+
+.button-white:hover{
+    background-color: #8DD3BB;
+}
+
+.button-green{
+    max-width: 170px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    background-color: #8DD3BB;
+    color: #112211;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #8DD3BB;
+    padding: 10px 10px;
+}
+
+.button-green:hover{
+    background-color: white;
+}
+
+.user-info{
+    display:flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    width: 33%;
+}
+
+.user-image{
+    width: 40px; 
+    height: 40px;
+    border-radius: 100px;
+}
+
+.user-info a{
+    color: white !important;
+    font-size: 18px;
+    margin: 0px;
+}
+/* #endregion */
+
+.main-wrapper{
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    width: 1440px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+.form-set{
+    display: flex;
+    gap: 24px;
+}
+
+.form-item{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 24px;
+}
+
+.form-set label{
+    color: #1C1B1F;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    background-color: white;
+    position: relative;
+    top: 10px;
+    left: 10px;
+    width: fit-content;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.form-set select {
+    padding-right: 30px; 
+}
+
+.form-set input, select{
+    appearance: none;
+    padding: 10px 16px;
+    height: 50px;
+    border-radius: 4px 4px 4px 4px;
+    border: 1px solid #000;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #1C1B1F;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    width: 600px;
+    font-family: 'Montserrat', sans-serif;
+    box-sizing: border-box;
+}
+
+input[type="date"]{
+    appearance: none;
+    font-size: 25px;
+    font-family: 'Montserrat', sans-serif;
+    color: #1c1b1fbd;
+    accent-color: #8DD3BB !important;
+}
+
+button[type="submit"]{
+    display: block;
+    background-color: #8dd3ba; 
+    border: none;
+    padding: 20px 10px;
+    border-radius: 5px;
+    font-size: 32px;
+    cursor: pointer;
+    color:#112211;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    width: 100%;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+button[type="submit"]:hover{
+    box-shadow: none;
+}
+
+.image-conatiner{
+    background: url(/static/register/images/register_image.jpg) no-repeat center center;
+    width: 100%;
+    border-radius: 30px;
+}

@@ -1,0 +1,92 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'register/CSS/register.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="image-conatiner">
+        </div>
+        
+        <div class="form-container">
+            <img src="/static/register/images/Logo_dark_green.svg">
+            <h1>Sign Up</h1>
+            <p>Let’s get you all set up so you can access your personal account.</p>
+            <form id="register-form" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="form-set">
+
+                    <div class="form-item">
+                        <label for="first_name">First Name</label>
+                        <input name="first_name" type="text" placeholder="John" value="{{ form.first_name.value }}">
+                        <div class="error"></div>
+                    </div>
+
+                    <div class="form-item">
+                        <label for="last_name">Last Name</label>
+                        <input name="last_name" type="text" placeholder="Doe" value="{{ form.last_name.value }}">
+                        <div class="error"></div>
+                    </div>
+                </div>
+                
+                <div class="form-set">
+                    <div class="form-item">
+                        <label for="email">Email</label>
+                        <input id="email" name="email" type="email" placeholder="john.doe@gmail.com" value="{{ form.email.value }}">
+                        <div id="email-error" class="error">
+                            {% if email_error %}
+                            <p class="error">{{ email_error }}</p>
+                            {% endif %} 
+                        </div>
+                    </div>
+                    
+                    <div class="form-item">                        
+                        <label for="phone">Phone Number</label>
+                        <input name="phone" type="tel" placeholder="000-000-000" value="{{ form.phone.value }}">
+                        <div class="error">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-set">
+                    <div class="form-item">
+                        <label for="birth_date">Birth Date</label>
+                        <input name="birth_date" type="date" value="{{ form.birth_date.value }}">
+                        <div class="error"></div>
+                    </div>
+
+                    <div class="form-item">
+                        <label for="password">Password</label>
+                        <input id="password" name="password" type="password" placeholder="password">
+                        <div id="password-error" class="error"></div>
+                    </div>
+                </div>
+                
+                <div class="checkbox-holder">
+                    <input type="checkbox" name="consent" >
+                    <label class="consent" for="consent">I agree to all the <a href="http://127.0.0.1:8000/tos/">Terms</a> and <a href="http://127.0.0.1:8000/privacy/">Privacy Policies</a></label>
+                    <div class="error">
+                    </div>
+                </div>
+
+                <button id="submit" class="submit disabled" type="submit">Create Account</button>
+
+                <p style="text-align: center;">Already have an account? <a href="http://127.0.0.1:8000/login/">Login</a></p>
+            
+            </form>
+    </div>
+</body>
+<script src="{% static 'register/JS/main.JS' %}"></script>
+
+</html>

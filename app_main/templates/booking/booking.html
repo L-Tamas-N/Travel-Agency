@@ -1,0 +1,116 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Now</title>
+
+    <link rel="stylesheet" href="{% static 'booking/CSS/booking.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="main-content">
+            <img src="/static/register/images/Logo_dark_green.svg" style="margin-bottom: 40px;">
+            <h1>Book Now for {{ hotel.name }}</h1>
+
+            <form method="GET">
+                <div class="form-set">
+                    <div class="form-item">
+                        {% if not user.is_authenticated %}
+                        <label for="email">Email:</label>
+                        <input type="email" name="email" value="{{ request.GET.email }}">
+                        {% else %}
+                        <p>Booking for: {{ user.email }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="form-set">
+                    <div class="form-item">
+                        <label for="check_in_date">Check-in Date:</label>
+                        <input type="date" name="check_in_date" required value="{{ check_in_date }}">
+                    </div>
+                </div>
+
+                <div class="form-set">
+                    <div class="form-item">
+                        <label for="check_out_date">Check-out Date:</label>
+                        <input type="date" name="check_out_date" required value="{{ check_out_date }}">
+                    </div>
+                </div>
+
+                {% if error_message %}
+                <div class="form-set">
+                    <div class="form-item">
+                        <div class="error-message">
+                            <p>{{ error_message }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="form-set">
+                    <div class="form-item">
+                        <button type="submit">Show Available Rooms</button>
+                    </div>
+                </div>
+            </form>
+
+            {% if rooms %}
+            <form method="POST">
+                {% csrf_token %}
+
+                <!-- Hidden date inputs to pass data into POST -->
+                <input type="hidden" name="check_in_date" value="{{ check_in_date }}">
+                <input type="hidden" name="check_out_date" value="{{ check_out_date }}">
+
+                {% if not user.is_authenticated %}
+                <div class="form-set">
+                    <div class="form-item">
+                        <label for="email">Email:</label>
+                        <input type="email" name="email" value="{{ request.GET.email }}" required>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="form-set">
+                    <div class="form-item">
+                        <label for="room_id">Select Room:</label>
+                        <select name="room_id" required>
+                            {% for room in rooms %}
+                            <option value="{{ room.id }}">{{ room.room_type }} - ${{ room.price_per_night }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-set">
+                    <div class="form-item">
+                        <button type="submit">Confirm Booking</button>
+                    </div>
+                </div>
+            </form>
+            {% endif %}
+        </div>
+        <div class="image-conatiner"></div>
+    </div>
+</body>
+</html>
+    
+
+
+    
+        
+        
+    
+        
+    
+        
+    
+        
+    
+        
+

@@ -1,0 +1,135 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account</title>
+    <link rel="stylesheet" href="{% static 'my_account/CSS/my_account.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="hero-section">
+    </div>
+
+    <div class="user-basic-info">
+        <div class="user-image" style="background: url('{{ user.user_image.url }}') center center; background-size: cover;"></div>
+        <form id="update-user-image" method="POST" class="update-user-image" enctype="multipart/form-data">
+        {% csrf_token %}
+            <div class="file-input-wrapper">
+                <input type="file" id="user_image_input" name="user_image" class="file-input" />
+                <label for="user_image_input" class="file-input-label">
+                    <i class="fas fa-pen"></i>
+                </label>
+            </div>
+        </form>
+        <h3 class="user-full-name">{{ user.first_name}} {{user.last_name}}</h3>
+        <p class="user-email">{{ user.email }}</p>
+        <button class="btn-logout" onclick="window.location.href='{% url 'logout' %}'">Logout</button>
+    </div>
+   
+    <div class="tabs">
+        <ul class="tab-titles">
+            <li class="active" data-tab="tab1">Account</li>
+            <li data-tab="tab2">Bookings</li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="tab1" class="tab-pane active">
+                <h2>Account</h2>
+
+                <div class="update-account-info-container">
+                    <form method="POST" class="update-account-info" >
+                        {% csrf_token %}
+                        <label for="first-name">First Name</label>
+                        <input type='text' name="first_name" placeholder="{{ user.first_name}}" value="{{ form_info.first_name.value|default:user.first_name }}">
+
+                        <label for="last-name">Last Name</label>
+                        <input type="text" name="last_name" placeholder="{{ user.last_name}}" value="{{ form_info.last_name.value|default:user.last_name }}">
+                
+                        <label for="phone-number">Phone Number</label>
+                        <input type='text' name="phone" placeholder="{{ user.phone}}" value="{{ form_info.phone.value|default:user.phone }}">
+
+                        <label for="birth-date">Date of birth</label>
+                        <input type="date" name="birth_date" placeholder="{{ user.birth_date}}" value="{{ form_info.birth_date.value|default:user.birth_date }}">
+
+                        <button type="submit">Update Info</button>
+                    </form>
+
+                    <div class="img-container"></div>
+                </div>
+                
+                <h2>Change Password </h2>
+                <form method="POST" class="change-password-form">
+                    {% csrf_token %}
+                    <label for="password">Password</label>
+                    <input type="password" name="password" required>
+
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" name="confirm_password" required>
+
+                    <button type="submit">Change Password</button>
+                </form>
+            </div>
+
+            <div id="tab2" class="tab-pane">
+                <h2>My Bookings</h2>
+                <div class="bookings-list">
+                    {% for reservation in reservations %}
+                        <div class="booking-item">
+                            <h3>{{ reservation.hotel.name }} - {{ reservation.room.room_type }}</h3>
+                            <p>Check-in: {{ reservation.check_in_date }} | Check-out: {{ reservation.check_out_date }}</p>
+                            <p>Total Price: ${{ reservation.total_price }}</p>
+                            
+                            {% if reservation.was_paid %}
+                                <p>Status: Paid</p>
+                            {% else %}
+                                <p>Status: Unpaid</p>
+                                <a href="{% url 'process_payment' reservation_id=reservation.id %}" class="btn btn-primary">Pay Now</a>
+                            {% endif %}
+                        </div>
+                    {% empty %}
+                        <p>You have no reservations.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <script src="{% static 'my_account/JS/main.js'%}"></script>
+
+    <script>
+        const payNowButton = document.getElementById('pay-now-button');
+    
+        payNowButton.addEventListener('click', async () => {
+            const reservationId = {{ reservation.id }};  // Pass the reservation ID dynamically from the template
+    
+            const response = await fetch('/process_payment/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    reservation_id: reservationId,  // Send reservation ID in the body
+                }),
+            });
+    
+            const data = await response.json();
+            if (data.sessionId) {
+                // Redirect to Stripe Checkout
+                const stripe = Stripe('your-publishable-key-here');
+                stripe.redirectToCheckout({ sessionId: data.sessionId });
+            } else {
+                alert('Payment failed: ' + data.error);
+            }
+        });
+    </script>
+
+</body>
+</html>
+
+

@@ -1,0 +1,398 @@
+@font-face {
+    font-family: 'Trade Gothic LT Extended';
+    src: url('homepage/fonts/Trade_Gothic_LT_Extended.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+html{
+    height: 100%;
+}
+
+body{
+    margin:0 auto;
+    padding: 20px 20px;
+    font-family: 'Montserrat', sans-serif;
+    background-color: rgba(211, 211, 211, 0.329);
+    height: 100%;
+}
+
+input:focus {
+    outline: none;
+  }
+
+/* #region: Header */
+header{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding:20px 0px;
+    margin: 0px auto !important;
+    position: relative;
+    background: transparent;
+    width: 1440px;
+}
+
+.header-content{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+nav{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 33%;
+}
+
+
+
+nav ul{
+    display: flex;
+    flex-direction: row;
+    color: black;
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+nav svg{
+    margin-right: 4px;
+}
+
+nav a{
+    position: relative;
+    top: -5px;
+    margin-right: 32px;
+    font-size: 25px;
+}
+
+nav .logo{
+    width: 33%;
+}
+
+.nav-button-container{
+    width: 33%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+}
+
+.button-white{
+    max-width: 170px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    background-color: #ffffff;
+    color: #112211;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #8DD3BB;
+    padding: 10px 10px;
+}
+
+.button-white:hover{
+    background-color: #8DD3BB;
+}
+
+.button-green{
+    max-width: 170px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    background-color: #8DD3BB;
+    color: #112211;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #8DD3BB;
+    padding: 10px 10px;
+}
+
+.button-green:hover{
+    background-color: white;
+}
+
+.user-info{
+    display:flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: flex-end;
+    width: 33%;
+}
+
+.user-image{
+    width: 40px; 
+    height: 40px;
+    border-radius: 100px;
+}
+
+.user-info a{
+    color: black !important;
+    font-size: 18px;
+    margin: 0px;
+}
+/* #endregion */
+
+/* #region: hero section */
+.hero-section{
+    background: linear-gradient(90deg, rgba(0, 35, 77, 0.63) 11.46%, rgba(0, 35, 77, 0.00) 77.37%), url(/static/hotels/images/Hotels_Search_Hero_Image.jpg) lightgray 0px -211.032px / 100.279% 170.94% no-repeat;
+    padding-top: 80px;
+    padding-bottom: 120px;
+    padding-left: 40px;
+    padding-right: 40px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1{
+    text-align: center;
+    font-size: 70px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1.2em;
+    color: white;
+    font-family: 'Poppins';
+    margin: 0px 0px 16px 0px;
+    width: 1000px;
+}
+
+.hero-section p{
+    color: white;
+    font-size: 25px;
+}
+/* #endregion */
+
+/* #region: hotel search filter */
+.filter{
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 1440px;
+    margin: 0 auto;
+    margin-top: -70px;
+}
+
+h2{
+    margin: 0px;
+    margin-bottom: 16px !important;
+    color: #000;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.form-set {
+    display: flex;
+    gap: 24px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.form-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 24px;
+}
+
+.form-set label {
+    color: #1C1B1F;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    background-color: white;
+    position: relative;
+    top: 10px;
+    left: 10px;
+    width: fit-content;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.form-set input {
+    appearance: none;
+    padding: 10px 16px;
+    height: 30px;
+    border-radius: 4px 4px 4px 4px;
+    border: 1px solid #000;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #1C1B1F;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+select{
+    appearance: none;
+    padding: 10px 16px;
+    height: 52px;
+    border-radius: 4px 4px 4px 4px;
+    border: 1px solid #000;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #1C1B1F;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    width: 200px;
+}
+
+button[type="submit"] {
+    display: block;
+    background-color: #8dd3ba;
+    border: none;
+    padding: 0px;
+    border-radius: 5px;
+    font-size: 25px;
+    cursor: pointer;
+    color: #112211;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    width: 25%;
+    height: 56px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    margin:0px !important;
+}
+
+button[type="submit"]:hover {
+    box-shadow: none;
+}
+
+
+/* #endregion */
+
+/* #region: hotel search result */
+
+.hotel-carousel-container {
+    width: 1440px; 
+    overflow: hidden; 
+    margin: auto;
+    padding: 40px 0px;
+}
+
+.hotel-carousel .hotel-card {
+    width: 100%; /* Ensures it takes the full slide width */
+    max-width: 380px; /* Adjust for consistent sizing */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+a.hotel-card-link.slick-slide{
+    margin-left: 40px;
+    text-decoration: none;
+    color: black;
+    margin-bottom: 20px;
+}
+
+.hotel-card h3{
+    text-align: center;
+}
+
+.hotel-card p {
+    font-size: 14px;
+    text-align: center;
+    margin-top: 5px;
+}
+
+/* #endregion */
+
+/* #region: last section */
+.last-section-container{
+    width: 1440px;
+    padding: 0px 40px 25px;
+    margin: 0 auto;
+}
+
+.last-section-wrapper{
+    display: flex;
+    gap: 40px;
+}
+
+.green-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #8DD3BB;
+    padding:25px;
+    border-radius: 13px;
+    
+}
+
+.image-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 400px);
+    grid-template-rows: repeat(2, 200px);
+    gap: 20px;
+}
+
+.image-gallery img {
+    width: 400px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 13px; /* Optional: Adds rounded corners */
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow */
+}
+/* #endregion */
+
+
+/* #region: footer section */
+
+footer{
+    background-color: #8DD3BB;
+    width: 100%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    padding-bottom: 40px;
+}
+
+.footer-main-section{
+    background-color: #8DD3BB;
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    padding-top: 40px;
+    width: 1440px;
+}
+
+.socials{
+    width: 50%;
+}
+
+.socials a{
+    text-decoration: none;
+}
+
+.socials img{
+    margin-bottom: 20px;
+}
+
+.fab, .far {
+    font-weight: 400;
+    font-size: 20px;
+    color: #112211;
+}
+
+
+/* #endregion /*

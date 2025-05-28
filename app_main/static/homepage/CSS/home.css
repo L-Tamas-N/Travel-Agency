@@ -1,0 +1,729 @@
+@font-face {
+    font-family: 'Trade Gothic LT Extended';
+    src: url('homepage/fonts/Trade_Gothic_LT_Extended.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+html{
+    height: 100%;
+}
+
+body{
+    margin:0 auto;
+    padding: 20px 20px;
+    font-family: 'Montserrat', sans-serif;
+    background-color: rgba(211, 211, 211, 0.329);
+    height: 100%;
+}
+
+input:focus {
+    outline: none;
+  }
+
+/* #region: Header */
+header{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding:0px 40px;
+    margin: 0px auto !important;
+    position: relative;
+    top:45px;
+    background: transparent;
+}
+
+.header-content{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+nav{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 33%;
+}
+
+
+
+nav ul{
+    display: flex;
+    flex-direction: row;
+    color: white;
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+nav svg{
+    margin-right: 4px;
+}
+
+nav a{
+    position: relative;
+    top: -5px;
+    margin-right: 32px;
+    font-size: 25px;
+}
+
+nav .logo{
+    width: 33%;
+}
+
+.nav-button-container{
+    width: 33%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+}
+
+.button-white{
+    max-width: 170px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    background-color: #ffffff;
+    color: #112211;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #8DD3BB;
+    padding: 10px 10px;
+}
+
+.button-white:hover{
+    background-color: #8DD3BB;
+}
+
+.button-green{
+    max-width: 170px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    background-color: #8DD3BB;
+    color: #112211;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #8DD3BB;
+    padding: 10px 10px;
+}
+
+.button-green:hover{
+    background-color: white;
+}
+
+.user-info{
+    display:flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    width: 33%;
+}
+
+.user-image{
+    width: 40px; 
+    height: 40px;
+    border-radius: 100px;
+}
+
+.user-info a{
+    color: white !important;
+    font-size: 18px;
+    margin: 0px;
+}
+/* #endregion */
+
+/* #region Hero Section */
+.hero-section{
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/static/homepage/images/Homepage_Hero.jpg") no-repeat center center; 
+    margin: 0 auto;
+    margin-top: -65px;
+    padding-top: 250px;
+    padding-bottom: 247px;
+    border-radius: 12px;
+    background-size: cover;
+}
+
+.above-title {
+    text-align: center;
+    font-family: 'Trade Gothic LT Extended';
+    font-size: 45px;
+    font-style: normal;
+    line-height: 1em;
+    font-weight: normal;
+    color: white;
+    margin: 0px;
+}
+
+h1{
+    text-align: center;
+    font-size: 75px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1em;
+    text-transform: uppercase;
+    color: white;
+    font-family: 'Poppins';
+    margin: 0px 0px 16px 0px;
+}
+
+.special{
+text-align: center;
+font-size: 25px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+color: white;
+margin: 0px !important;
+}
+
+.tabs {
+    max-width: calc(100vw - 200px);
+    margin: 0 auto;
+    margin-top: -100px !important;
+    background-color:white;
+    padding: 32px;
+    box-shadow: 0px 4px 16px 0px rgba(141, 211, 187, 0.15);
+    border-radius: 16px;
+    margin-bottom: 80px !important;
+
+}
+
+.tab-titles {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+}
+
+.tab-titles li {
+    margin-right: 15px;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+}
+
+.tab-titles li.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.tab-content {
+    margin-top: 20px;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+.flex-box-buttons-left{
+    display: flex;
+    align-items: left;
+    justify-content: flex-end;
+    gap: 24px;
+}
+
+.button-border-only{
+    max-width: 250px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    background-color: #ffffff00;
+    color: #112211;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #8DD3BB;
+    padding: 10px 10px;
+}
+
+.button-border-only:hover{
+    background-color: #8DD3BB;
+}
+
+.button-main {
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 10px 20px;
+    background-color: #8dd3ba; 
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    color:#112211;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.button-main img {
+    margin-right: 5px;
+}
+
+.button-main:hover{
+    background-color: #8dd3ba79; ;
+}
+
+/* #endregion */
+
+/* #region Middle Section -- locations */
+
+.container-mid{
+    width: 1440px;
+    margin: 0 auto;
+    justify-content: center;
+    display:flex;
+    flex-direction: column;
+    padding: 0px 20px;
+    padding-top: 40px;
+}
+
+.container-mid h2{
+    margin: 0px;
+    margin-bottom: 16px !important;
+    color: #000;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 35px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.flex-box-text-button{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.flex-box-text-button p{
+    font-size: 18px;
+}
+
+.flex-box-text-button .button-border-only{
+    text-align: right;   
+}
+
+.flex-box-text-button p{
+    margin: 0px;
+}
+
+.container-flex-three{
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    margin-bottom: 32px;
+}
+
+.container-flex-three h3{
+    font-family: 'Poppins';
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    color: #11221185;
+    margin: 0px;
+    margin-bottom: 8px !important;
+}
+
+.flex-column{
+    display:flex;
+    flex-direction: row;
+    padding: 16px;
+    gap: 16px;
+    border-radius: 16px;
+    box-shadow: 0px 4px 16px 0px rgba(17, 34, 17, 0.05);
+    justify-content: middle;
+    align-items: center;
+    width: 100%;
+    background-color: white;
+}
+
+.flex-column img{
+    width: 90px;
+    height: 90px;
+    border-radius: 16px;
+}
+
+.text-content p{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    color: #11221185;
+    margin: 0px;
+    margin-bottom: 8px !important;
+    
+}
+
+.location-backlinks p{
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    font-family: 'Montserrat', sans-serif;
+    color: #112211;
+    display: inline;
+}
+
+
+.flex-column-inside {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* #endregion*/
+
+/* #region Middle section -- Double image section */
+
+.flex-box-two-col-main{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap:24px;
+    margin-bottom: 70px;
+}
+
+.image-container-flights{
+    width: 100%;
+    height: 900px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/static/homepage/images/fligth-bg.jpg") no-repeat center center; 
+    background-size: cover;
+    border-radius: 20px;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+}
+
+.box-content{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 450px;
+}
+
+.box-content h2{
+    font-size: 45px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    font-family: 'Poppins', sans-serif;
+    color:white;
+    margin: 0px;
+    margin-bottom: 32px !important;
+}
+
+.box-content p{
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    color: white;
+    margin: 0px;
+    margin-bottom: 32px !important;
+}
+
+.image-container-flights button{
+    width: 250px;
+    margin: 0px auto;
+    font-size: 25px;
+}
+
+.image-container-hotels{
+    width: 100%;
+    height: 900px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/static/homepage/images/hotels-bg.jpg") no-repeat center center; 
+    background-size: cover;
+    border-radius: 20px;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+}
+
+.image-container-hotels button{
+    width: 250px;
+    margin: 0px auto;
+    font-size: 25px;
+}
+
+/* #endregion */
+
+/* #region: Reviews */
+
+.reviews{
+    margin-bottom: 90px;
+}
+
+.reviews h2{
+    color: #000;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 35px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin: 0px;
+    margin-bottom: 16px !important;
+}
+
+.reviews-subtitle{
+    color: #000;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin: 0px;
+    margin-bottom: 70px;
+}
+
+.review-flex{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 24px;
+}
+
+.reviews-container{
+    width: 100%;
+}
+
+.colored-box{
+    border-radius: 20px;
+    background: rgba(141, 211, 187, 0.40);
+    flex: 1;
+}
+
+.review-box{
+    background: white;
+    position: relative;
+    top: -15px;
+    left: -15px;
+    padding: 24px;
+    box-shadow: 2px 4px 16px 0px rgba(17, 34, 17, 0.10);
+    border-radius: 20px;
+    display:flex;
+    flex-grow: 1;
+    flex-direction: column;
+    height: 659px;
+}
+
+.review-box h3{
+    color: #112211;
+    font-family: 'Poppins', sans-serif;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1.2em;
+    margin: 0px;
+    margin-bottom: 32px !important;
+}
+
+.review-message{
+    color: #11221185;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin: 0px;
+    margin-bottom: 12px !important;
+}
+
+.review-view-more{
+    color: #112211;
+    text-align: right;
+    font-family: 'Poppins', sans-serif;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin: 0px;
+    margin-bottom: 16px !important;
+}
+
+.review-rating{
+    margin-bottom:20px;
+}
+
+.review-user-name{
+    color: #112211;
+    font-family: 'Poppins', sans-serif;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin: 0px;
+}
+
+.review-user-location{
+    color: #11221185;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin: 0px;
+    margin-bottom: 25px !important;
+}
+
+.review-box img{
+    width: 100%;
+    height: auto;
+}
+
+/* #endregion */
+
+/* #region: newsletter */
+
+.newsletter{
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1440px;
+    border-radius: 20px;
+    background: #CDEAE1;
+    box-shadow: 0px 4px 16px 0px rgba(17, 34, 17, 0.05);
+    padding: 24px;
+    margin-bottom: -115px;
+    position: relative;
+    z-index: 15;
+}
+
+.newsletter-content{
+    width: 100%;
+}
+
+.newsletter-content h2{
+    color: #112211;
+    font-family: "Poppins", serif;
+    font-size: 35px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 54px;
+    margin: 0px;
+    margin-bottom: 24px;
+}
+
+.newsletter .subtitle{
+    color: #112211;
+    font-family: "Poppins", serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin: 0px;
+    margin-bottom: 8px !important;
+}
+
+.newsletter-content p{
+    color: #11221170;
+    font-family: "Montserrat", serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin:0;
+    margin-bottom: 16px;
+}
+
+form{
+    background: transparent;
+    box-shadow: none;
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+
+.newsletter-email{
+    color: #1C1B1F;
+    font-family: "Montserrat", serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    border-radius: 4px;
+    border: none;
+    width: 473px;
+    padding: 16px;
+}
+
+.newsletter-submit-button{
+    background-color: #112211 ;
+    color: white;
+    font-family: "Montserrat", serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    padding: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+/* #endregion */
+
+/* #region: footer section */
+
+footer{
+    background-color: #8DD3BB;
+    width: 100%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    padding-bottom: 40px;
+}
+
+.footer-main-section{
+    background-color: #8DD3BB;
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    padding-top: 150px;
+    width: 1440px;
+}
+
+.socials{
+    width: 50%;
+}
+
+.socials a{
+    text-decoration: none;
+}
+
+.socials img{
+    margin-bottom: 20px;
+}
+
+.fab, .far {
+    font-weight: 400;
+    font-size: 20px;
+    color: #112211;
+}
+
+
+/* #endregion /*

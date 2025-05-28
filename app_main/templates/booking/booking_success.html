@@ -1,0 +1,45 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Booking Successful</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="{% static 'booking/CSS/booking_success.css' %}">
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="main-content">
+            <h1>Booking Successful!</h1>
+
+            {% if reservation.was_paid %}
+                <p>Your reservation has been successfully paid for!</p>
+            {% else %}
+                <p>{{ payment_status }}</p>
+                <button class="button-white" onclick="window.location.href='http://127.0.0.1:8000/my_account'">View Reservation</button>
+                <a href="{% url 'process_payment' reservation_id=reservation.id %}" class="btn btn-primary button-green">Pay Now</a>
+
+                <div id="payment-form" style="display:none;">
+                    <form action="{% url 'process_payment' %}" method="POST" id="payment-form">
+                        {% csrf_token %}
+                        <div class="form-set">
+                            <div class="form-item">
+                                <label for="card-element">Credit or Debit Card</label>
+                                <div id="card-element"></div>
+                                <div id="card-errors" role="alert"></div>
+                            </div>
+                        </div>
+                        <button class="button-green" type="submit">Pay Now</button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="{% static 'booking/JS/main.js' %}"></script>
+</body>
+</html>
